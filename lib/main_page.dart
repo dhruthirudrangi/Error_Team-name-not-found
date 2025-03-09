@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:recipe/upload_images_screen.dart';
 import '../auth_pages.dart';
 import '../picture_screen.dart';
-import '../sos_screen.dart'; // Import SOSScreen
+import '../sos_screen.dart';
+import '../news_screen.dart';
+import '../chat_screen.dart'; // ✅ Import ChatScreen
 
 class DishGuisePage extends StatelessWidget {
   const DishGuisePage({super.key});
@@ -32,7 +34,7 @@ class DishGuisePage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFFFE0B2), Color(0xFFE1BEE7)], // Light Orange & Light Purple
+            colors: [Color(0xFFFFE0B2), Color(0xFFE1BEE7)], 
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -40,7 +42,6 @@ class DishGuisePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo (Navigates to PictureScreen)
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -49,21 +50,17 @@ class DishGuisePage extends StatelessWidget {
                 );
               },
               child: const CircleAvatar(
-                radius: 70, // Increased size
+                radius: 70, 
                 backgroundImage: AssetImage('assets/small_logo.png'),
               ),
             ),
             const SizedBox(height: 10),
-
-            // DishGuise Title
             const Text(
               "DishGuise",
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
             ),
-
             const SizedBox(height: 30),
 
-            // Buttons Grid
             Column(
               children: [
                 Row(
@@ -72,7 +69,12 @@ class DishGuisePage extends StatelessWidget {
                     _buildButton(context, Icons.phone, 'Helpline', Colors.blue, () {
                       showHelplinesPopup(context);
                     }),
-                    _buildButton(context, Icons.lightbulb, 'Inspiration', Colors.green, () {}),
+                    _buildButton(context, Icons.lightbulb, 'Inspiration', Colors.green, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const NewsScreen()),
+                      );
+                    }),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -81,13 +83,11 @@ class DishGuisePage extends StatelessWidget {
                   children: [
                     _buildButton(context, Icons.insert_drive_file, 'Evidence', Colors.purple, () {
                       Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => UploadImagesScreen()),
+                        context,
+                        MaterialPageRoute(builder: (context) => UploadImagesScreen()),
                       );
-              
                     }),
                     _buildButton(context, Icons.sos, 'SOS', Colors.orange, () {
-                      // Navigate to the SOS Screen when clicked
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const SOSScreen()),
@@ -99,14 +99,19 @@ class DishGuisePage extends StatelessWidget {
             ),
             const SizedBox(height: 50),
 
-            // Get Emotional Support Button
+            // ✅ Emotional Support Button - No Previous Functionality Affected
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatScreen()), // ✅ Navigate to ChatScreen
+                );
+              },
               child: const Text("Get Emotional Support", style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
           ],
@@ -115,7 +120,6 @@ class DishGuisePage extends StatelessWidget {
     );
   }
 
-  // Clickable Circular Buttons
   Widget _buildButton(BuildContext context, IconData icon, String label, Color color, VoidCallback onTap) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -135,8 +139,6 @@ class DishGuisePage extends StatelessWidget {
     );
   }
 }
-
-// Helplines Popup Dialog
 void showHelplinesPopup(BuildContext context) {
   showDialog(
     context: context,
